@@ -76,7 +76,7 @@ class Api extends BaseRoute {
 
             if (/^[0-9a-z]{24}$/.test(search)) {
                 termType = FieldTypes.ObjectId;
-                termValue = model.base.Types.ObjectId(search);
+                termValue = new model.base.Types.ObjectId(search);
             }
 
             for (const fieldKey in fieldObj) {
@@ -149,7 +149,7 @@ class Api extends BaseRoute {
                 .save().catch(error => console.log(`error while trying to save audit log: ${error.message}`));
         }
 
-        return model.findByIdAndDelete(model.base.Types.ObjectId(documentId));
+        return model.findByIdAndDelete(new model.base.Types.ObjectId(documentId));
     }
 
     async saveCollectionDocument (request, response) {
@@ -170,7 +170,7 @@ class Api extends BaseRoute {
         });
 
         if (existingId) {
-            itemToSave = await model.findById(model.base.Types.ObjectId(existingId));
+            itemToSave = await model.findById(new model.base.Types.ObjectId(existingId));
 
             if (!itemToSave) {
                 throw new Error(Errors.generalErrors.documentNotFound);
@@ -207,7 +207,7 @@ class Api extends BaseRoute {
         const { collectionName, id } = request.params;
         const model = SchemaUI.SchemaUI.getModel(collectionName);
 
-        return model.findById(model.base.Types.ObjectId(id));
+        return model.findById(new model.base.Types.ObjectId(id));
     }
 
     async getCollectionInitialDocument (request) {
